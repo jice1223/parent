@@ -2,6 +2,7 @@ package com.example.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.common.entity.User;
@@ -25,6 +26,11 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
+    @Override
+    public void addUser(User user) {
+        userMapper.insert(user);
+    }
+
     public IPage<User> selectUserPage(Page<User> page) {
         // 不进行 count sql 优化，解决 MP 无法自动优化 SQL 问题，这时候你需要自己查询 count 部分
         // page.setOptimizeCountSql(false);
@@ -32,5 +38,12 @@ public class UserServiceImpl implements UserService {
         // 要点!! 分页返回的对象与传入的对象是同一个
 
         return userMapper.selectPage(page,null);
+    }
+
+    @Override
+    public void updateUser(Integer id,Integer old) {
+        User user = new User();
+        user.setOld(old);
+        userMapper.update(user,new UpdateWrapper<User>().eq("id",id));
     }
 }

@@ -8,5 +8,7 @@ public interface UserService {
 
     public User find(int id);
 
+    public void addUser(User user);
     public IPage<User> selectUserPage(Page<User> page);
+    public void updateUser(Integer id,Integer old);
 }
